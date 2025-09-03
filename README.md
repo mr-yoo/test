@@ -1,6 +1,6 @@
 # Lowpass Filter
 
-Reads a PNG image, applies a horizontal 1-2-1 low-pass filter, and writes the filtered image.
+Reads a PNG image, applies a vertical 1-2-1 low-pass filter, and writes the filtered image.
 
 ## Build
 
