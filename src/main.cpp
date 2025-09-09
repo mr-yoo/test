@@ -116,6 +116,26 @@ std::vector<unsigned char> horizontal_lowpass(const std::vector<unsigned char>& 
     return dst;
 }
 
+std::vector<unsigned char> vertical_lowpass(const std::vector<unsigned char>& src,
+                                            unsigned width, unsigned height)
+{
+    const int channels = 4;
+    std::vector<unsigned char> dst(src.size());
+    for(unsigned y = 0; y < height; ++y) {
+        for(unsigned x = 0; x < width; ++x) {
+            for(int c = 0; c < channels; ++c) {
+                auto sample = [&](int yy) {
+                    int ny = std::clamp(yy, 0, (int)height - 1);
+                    return src[(ny * width + x) * channels + c];
+                };
+                int sum = sample(y - 1) + 2 * sample(y) + sample(y + 1);
+                dst[(y * width + x) * channels + c] = static_cast<unsigned char>(sum / 4);
+            }
+        }
+    }
+    return dst;
+}
+
 int main(int argc, char** argv)
 {
     if(argc < 3) {
@@ -128,7 +148,7 @@ int main(int argc, char** argv)
         std::cerr << "Could not read input image\n";
         return 1;
     }
-    auto filtered = horizontal_lowpass(image, width, height);
+    auto filtered = vertical_lowpass(image, width, height);
     if(!write_png(argv[2], filtered, width, height)) {
         std::cerr << "Could not write output image\n";
         return 1;
