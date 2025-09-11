@@ -1,3 +1,0 @@
-/home/runner/work/test/test/build/CMakeFiles/lowpass.dir
-/home/runner/work/test/test/build/CMakeFiles/edit_cache.dir
-/home/runner/work/test/test/build/CMakeFiles/rebuild_cache.dir
